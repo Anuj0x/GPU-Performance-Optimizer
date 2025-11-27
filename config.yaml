@@ -1,0 +1,71 @@
+# GPU Performance Advisor Configuration
+
+# Installation paths
+install:
+  base_dir: "/opt/gpa"
+  spack_dir: null  # Set to existing spack installation or leave null to clone
+  cuda_path: "/usr/local/cuda"
+  cupti_path: "/usr/local/cuda/extras/CUPTI"
+
+# Build configuration
+build:
+  jobs: 8
+  cmake_generator: "Unix Makefiles"
+  build_type: "Release"
+
+# Benchmark configuration
+benchmarks:
+  default_iterations: 10
+  default_tool: "nsys"  # nsys, nvprof, or none
+  default_arch: "V100"  # V100 or A100
+  verbose: false
+  debug: false
+  fast_mode: false
+
+# Profiling configuration
+profiling:
+  threads: 32
+  instruction_sampling: true
+  pc_sampling_only: false
+
+# Test cases configuration
+test_cases:
+  enabled_suites:
+    - rodinia
+    - quicksilver
+    - exatensor
+    - pelec
+    - minimod
+
+  rodinia_cases:
+    - huffman
+    - nw
+    - b+tree
+    - backprop
+    - bfs
+    - cfd
+    - gaussian
+    - heartwall
+    - hotspot
+    - kmeans
+    - lavaMD
+    - lud
+    - myocyte
+    - particlefilter
+    - pathfinder
+    - srad
+    - streamcluster
+
+# Logging configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file: "gpa.log"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Dependencies
+dependencies:
+  spack_packages:
+    - "hpctoolkit ^dyninst@master ^binutils@2.34+libiberty~nls"
+    - "libmonitor@master+dlopen+hpctoolkit"
+    - "mbedtls"
+    - "gotcha"
